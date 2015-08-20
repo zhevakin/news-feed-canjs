@@ -1,0 +1,57 @@
+.news-feed {
+    background: #eee;
+    border: 1px solid #ddd;
+    padding: 8px;
+    position: relative;
+    width: 100%;
+}
+
+.news-feed-error {
+
+}
+
+.news-feed-loading {
+
+}
+
+.news-feed-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.news-feed-item {
+    background: #fff;
+    border: 1px solid #ddd;
+    display: block;
+    margin: 0 0 8px;
+    padding: 8px;
+}
+
+.news-feed-item:last-child {
+    margin: 0;
+}
+
+.news-feed-user {
+    font-weight: bold;
+}
+
+.news-feed-text {
+
+}
+
+.news-feed-fade-in {
+    animation: fadeIn ease-in 1;
+    animation-fill-mode: forwards;
+    animation-duration: 0.5s;
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
