@@ -1,8 +1,7 @@
-define(['jquery',
-        'can',
+define(['can',
         'controls/news-feed/news-feed.control'],
-    function ($, can, NewsFeed) {
-        $(function () {
+    function (can, NewsFeed) {
+        (function() {
 
             new NewsFeed('#widget', {
                 feedUrl: 'http://api.massrelevance.com/reccosxof/matchtrax_hashclash_featured_tweets.json',
@@ -10,5 +9,5 @@ define(['jquery',
                 limit: 10
             });
 
-        });
+        })();
     });

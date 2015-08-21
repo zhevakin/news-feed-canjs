@@ -1,9 +1,8 @@
 // News feed CanJS control
-define(['jquery',
-        'can',
+define(['can',
         './news-feed.mustache!',
         './news-feed.less!'],
-    function ($, can, template) {
+    function (can, template) {
 
         return can.Control.extend({
                 defaults: {
