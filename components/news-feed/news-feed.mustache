@@ -1,0 +1,16 @@
+<div class="news-feed">
+    {{#isError}}
+        <div class="news-feed-error">{{errorText}}</div>
+    {{/isError}}
+    {{#isFeedLoading}}
+        <div class="news-feed-loading">Loading...</div>
+    {{/isFeedLoading}}
+    <div class="news-feed-list">
+    {{#feedItems}}
+        <div class="news-feed-item">
+            <div class="news-feed-user">{{user.name}}</div>
+            <div class="news-feed-text">{{text}}:</div>
+        </div>
+    {{/feedItems}}
+    </div>
+</div>

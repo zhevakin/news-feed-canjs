@@ -2,9 +2,9 @@
   "name": "news-feed",
   "version": "1.0.0",
   "description": "Test CanJS project",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "steal-tools"
   },
   "author": "",
   "license": "ISC",
@@ -15,11 +15,12 @@
     "gulp-concat": "^2.6.0",
     "gulp-postcss": "^5.1.10",
     "gulp-sourcemaps": "^1.5.2",
-    "run-sequence": "^1.1.2"
+    "run-sequence": "^1.1.2",
+    "steal-tools": "^0.10.7"
   },
   "dependencies": {
+    "bootstrap": "^3.3.5",
     "can": "^2.2.7",
-    "canjs": "^2.2.0",
     "jquery": "^2.1.4",
     "steal": "^0.10.5"
   }

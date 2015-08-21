@@ -1,91 +1,68 @@
 // News feed CanJS component
-can.Component.extend({
-    tag: 'news-feed',
-    viewModel: {
-        errorText: true,
-        feedItems: [],
-        'feed-url': '@',
-        isError: false,
-        isFeedLoading: true,
-        interval: '@',
-        limit: '@'
-    },
-    template: '<div class="news-feed">' +
-    '{{#isError}}<div class="news-feed-error">{{errorText}}</div>{{/isError}}' +
-    '{{#isFeedLoading}}<div class="news-feed-loading">Loading...</div>{{/isFeedLoading}}' +
-    '<div class="news-feed-list"></div>' +
-    '</div>',
-    helpers: {},
-    events: {
-        inserted: function () {
-            var feedUrl = this.scope.attr('feed-url'),
-                interval = this.scope.attr('interval') || 5000,
-                limit = this.scope.attr('limit') || 10,
-                feedListEl = this.element.find('.news-feed-list'),
-                latestId,
-                _this = this;
+define(['jquery',
+        'can',
+        './news-feed.mustache!',
+        './news-feed.less!'],
+    function ($, can, template) {
+        can.Component.extend({
+            tag: 'news-feed',
+            viewModel: {
+                errorText: '',
+                feedItems: [],
+                isError: false,
+                isFeedLoading: true
+            },
+            template: template,
+            helpers: {},
+            events: {
+                inserted: function () {
+                    var feedUrl = this.element.attr('feed-url'),
+                        interval = this.element.attr('interval') || 5000,
+                        limit = this.element.attr('limit') || 10,
+                        latestId,
+                        _this = this;
 
-            var News = can.Model.extend({
-                findAll: feedUrl
-            }, {});
+                    var News = can.Model.extend({
+                        findAll: feedUrl
+                    }, {});
 
-            var loadFeed = function () {
-                News.findAll({limit: limit}, function (data) {
-                    // Render and append feed data
-                    renderFeed(data);
+                    var loadFeed = function () {
+                        News.findAll({limit: limit, from_id: latestId}, function (data) {
 
-                    // Save last feed item id
-                    latestId = data[0].entity_id;
+                            if (data.length > 0) {
 
-                    _this.scope.attr('isFeedLoading', false);
+                                if (_this.viewModel.feedItems.length == 0) {
+                                    // If items array is empty init it with new data
+                                    _this.viewModel.attr('feedItems', data);
+                                } else {
+                                    // Else add new items to the beginning
+                                    _this.viewModel.feedItems.unshift.apply(_this.viewModel.feedItems, data);
 
-                    // Update feed every 'interval' ms
-                    setInterval(updateFeed, interval);
-                }, function (error) {
-                    showError('Error loading news feed');
-                });
-            };
+                                    // And remove last elements
+                                    _this.viewModel.feedItems.splice(limit, data.length);
+                                }
 
-            var updateFeed = function () {
-                News.findAll({limit: limit, from_id: latestId}, function (data) {
-                    if (data.length > 0) {
-                        // Render and append feed data
-                        renderFeed(data);
+                                // Save last feed item id
+                                latestId = data[0].entity_id;
 
-                        // Save last feed item id
-                        latestId = data[0].entity_id;
+                            }
 
-                        // Remove last elements
-                        feedListEl.find('.news-feed-item:nth-last-child(-n+' + data.length + ')').remove();
-                    }
-                }, function (error) {
-                    showError('Error updating news feed');
-                });
-            };
+                            _this.viewModel.attr('isFeedLoading', false);
 
-            var showError = function (errorText) {
-                _this.scope.attr('isFeedLoading', false);
-                _this.scope.attr('isError', true);
-                _this.scope.attr('errorText', errorText);
-            };
+                            // Update feed every 'interval' ms
+                        }, function (error) {
+                            _this.viewModel.attr('isFeedLoading', false);
+                            _this.viewModel.attr('isError', true);
+                            _this.viewModel.attr('errorText', 'Error loading news feed');
+                        });
+                    };
 
-            var renderItem = function (data) {
-                return can.mustache('<div class="news-feed-item news-feed-fade-in">' +
-                    '<div class="news-feed-user">{{user.name}}</div>' +
-                    '<div class="news-feed-text">{{text}}:</div>' +
-                    '</div>')(data);
-            };
+                    // Initial load and interval for feed update
+                    loadFeed();
+                    setInterval(loadFeed, interval);
 
-            var renderFeed = function (data) {
-                var feedHtml = document.createElement("div");
-                data.each(function (data) {
-                    $(feedHtml).append(renderItem(data))
-                });
-                feedListEl.prepend(feedHtml.innerHTML);
-            };
+                }
+            }
+        });
 
-            loadFeed();
-
-        }
-    }
-});
+    });

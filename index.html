@@ -3,15 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>News Feed</title>
-
-    <!-- Libs -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="dist/styles/style.css"/>
-    <script src="libs/jquery/jquery.min.js"></script>
-    <script src="libs/canjs/can.jquery.min.js"></script>
-
-    <!-- Components -->
-    <script src="components/news-feed/news-feed.js"></script>
 </head>
 <body>
 <div class="container">
@@ -31,11 +23,7 @@
         </news-feed>
     </script>
 
-    <script>
-        $(function () {
-            $('#widget').html(can.view('news-feed', {}));
-        });
-    </script>
+    <script type="text/javascript" src="node_modules/steal/steal.js"></script>
 </div>
 </body>
 </html>

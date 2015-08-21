@@ -7,7 +7,7 @@ var gulp = require('gulp'),
     concat = require('gulp-concat');
 
 var paths = {
-    app: ['components/**/*.{js,css,html}', 'index.html'],
+    app: ['components/**/*.{js,css,html,mustache}', 'index.html', 'app.js'],
     css: ['components/**/*.css']
 };
 
