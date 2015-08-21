@@ -34,6 +34,9 @@ define(['jquery',
                                 if (_this.viewModel.feedItems.length == 0) {
                                     // If items array is empty init it with new data
                                     _this.viewModel.attr('feedItems', data);
+
+                                    // Hide Loading message
+                                    _this.viewModel.attr('isFeedLoading', false);
                                 } else {
                                     // Else add new items to the beginning
                                     _this.viewModel.feedItems.unshift.apply(_this.viewModel.feedItems, data);
@@ -47,9 +50,6 @@ define(['jquery',
 
                             }
 
-                            _this.viewModel.attr('isFeedLoading', false);
-
-                            // Update feed every 'interval' ms
                         }, function (error) {
                             _this.viewModel.attr('isFeedLoading', false);
                             _this.viewModel.attr('isError', true);
