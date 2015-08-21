@@ -1,6 +1,6 @@
 define(['jquery',
         'can',
-        'components/news-feed/news-feed.control'],
+        'controls/news-feed/news-feed.control'],
     function ($, can, NewsFeed) {
         $(function () {
 
