@@ -1,20 +1,25 @@
 <div class="news-feed">
-    <div class="news-feed-config">
-        <form class="news-feed-form form-horizontal" method="post">
+    <div class="news-feed-settings{{#isSettingsShown}} is-open{{/isSettingsShown}}">
+        <a class="news-feed-show-settings" href="#">Settings</a>
+        <a class="news-feed-hide-settings" href="#">Hide settings</a>
+        <form class="news-feed-settings-form form-horizontal" method="post">
             <div class="form-group">
                 <label class="col-sm-3 control-label news-feed-label">Feed url:</label>
+
                 <div class="col-sm-9">
                     <input type="text" class="form-control" can-value="options.feedUrl">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label news-feed-label">Number of items:</label>
+
                 <div class="col-sm-9">
                     <input type="text" class="form-control" can-value="options.limit">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label news-feed-label">Update interval (ms):</label>
+
                 <div class="col-sm-9">
                     <input type="text" class="form-control" can-value="options.interval">
                 </div>

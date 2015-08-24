@@ -12,12 +12,14 @@ define(['can',
                 }
             },
             {
+                // Control init
                 init: function () {
                     this.viewModel = new can.Map({
                         errorText: '',
                         feedItems: new can.List(),
                         isFeedLoading: true,
                         isError: false,
+                        isSettingsShown: false,
                         options: this.options
                     });
 
@@ -78,19 +80,30 @@ define(['can',
                         self.viewModel.attr('errorText', 'Error loading news feed');
                     });
                 },
-                updateSettings: function () {
+
+                // Show settings
+                '.news-feed-show-settings click': function (el, event) {
+                    event.preventDefault();
+
+                    this.viewModel.attr('isSettingsShown', true);
+                },
+
+                //Hide settings
+                '.news-feed-hide-settings click': function () {
+                    event.preventDefault();
+
+                    this.viewModel.attr('isSettingsShown', false);
+                },
+
+                // Settings form submit
+                '.news-feed-settings-form submit': function (form, event) {
+                    event.preventDefault();
 
                     // Update settings from the form
                     this.options = this.viewModel.options;
 
                     // And re-init the control
                     this.init();
-                },
-
-                // Settings form submit
-                '.news-feed-form submit': function (form, event) {
-                    this.updateSettings();
-                    event.preventDefault();
                 }
             }
         );

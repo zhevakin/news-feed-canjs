@@ -6,6 +6,23 @@
   width: 100%;
 }
 
+.news-feed-settings {
+  
+}
+
+.news-feed-show-settings {
+  display: inline-block;
+  margin: 0 0 5px;
+}
+
+.news-feed-hide-settings {
+  display: none;
+  margin: 0 0 5px;
+}
+
+.news-feed-settings-form {
+  display: none;
+}
 
 .news-feed-error {
 
@@ -48,6 +65,26 @@
   opacity: 0;
 }
 
+// Blocks modifications
+.news-feed-settings {
+  &.is-open {
+    animation: fadeIn ease-in 1;
+    animation-fill-mode: forwards;
+    animation-duration: 0.3s;
+
+    .news-feed-show-settings {
+      display: none;
+    }
+    .news-feed-hide-settings {
+      display: inline-block;
+    }
+    .news-feed-settings-form {
+      display: block;
+    }
+  }
+}
+
+// Animations
 @keyframes fadeIn {
   from {
     opacity: 0;
