@@ -1,4 +1,31 @@
 <div class="news-feed">
+    <div class="news-feed-config">
+        <form class="news-feed-form form-horizontal" method="post">
+            <div class="form-group">
+                <label class="col-sm-3 control-label news-feed-label">Feed url:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" can-value="options.feedUrl">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label news-feed-label">Number of items:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" can-value="options.limit">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label news-feed-label">Update interval (ms):</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" can-value="options.interval">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-12">
+                    <button class="btn" type="submit">Update</button>
+                </div>
+            </div>
+        </form>
+    </div>
     {{#isError}}
         <div class="news-feed-error">{{errorText}}</div>
     {{/isError}}
@@ -6,11 +33,11 @@
         <div class="news-feed-loading">Loading...</div>
     {{/isFeedLoading}}
     <div class="news-feed-list">
-    {{#feedItems}}
-        <div class="news-feed-item{{#isNewItem}} news-feed-fade-in{{/isNewItem}}">
-            <div class="news-feed-user">{{user.name}}</div>
-            <div class="news-feed-text">{{text}}</div>
-        </div>
-    {{/feedItems}}
+        {{#feedItems}}
+            <div class="news-feed-item{{#isNewItem}} news-feed-fade-in{{/isNewItem}}">
+                <div class="news-feed-user">{{user.name}}</div>
+                <div class="news-feed-text">{{text}}</div>
+            </div>
+        {{/feedItems}}
     </div>
 </div>

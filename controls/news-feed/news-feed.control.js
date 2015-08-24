@@ -12,63 +12,85 @@ define(['can',
                 }
             },
             {
-                init: function (element, options) {
-                    var latestId,
-                        viewModel = new can.Map({
-                            errorText: '',
-                            feedItems: new can.List(),
-                            isFeedLoading: true,
-                            isError: false
-                        });
+                init: function () {
+                    this.viewModel = new can.Map({
+                        errorText: '',
+                        feedItems: new can.List(),
+                        isFeedLoading: true,
+                        isError: false,
+                        options: this.options
+                    });
 
-                    // Render template to the control element
-                    element.html(can.view(template, viewModel));
+                    this.latestId = undefined;
 
                     // Create model for json data feed
-                    var News = can.Model.extend({
-                        findAll: options.feedUrl
+                    this.News = can.Model.extend({
+                        findAll: this.options.feedUrl
                     }, {});
 
-                    // Load data function
-                    var loadFeed = function () {
-                        News.findAll({limit: options.limit, from_id: latestId}, function (data) {
-                            if (data.length > 0) {
-
-                                // Set data feed as old data
-                                viewModel.feedItems.forEach(function (item) {
-                                    item.attr('isNewItem', false);
-                                });
-
-                                // Mark new items
-                                data.forEach(function (item) {
-                                    item.attr('isNewItem', true);
-                                });
-
-                                // Add new items to the beginning of feed array
-                                viewModel.feedItems.unshift.apply(viewModel.feedItems, data);
-
-                                // Remove last elements
-                                viewModel.feedItems.splice(options.limit, data.length);
-
-                                // Hide Loading message
-                                if (viewModel.attr('isFeedLoading') === true) {
-                                    viewModel.attr('isFeedLoading', false);
-                                }
-
-                                // Save last feed item entity_id
-                                latestId = data[0].entity_id;
-                            }
-
-                        }, function (error) {
-                            viewModel.attr('isFeedLoading', false);
-                            viewModel.attr('isError', true);
-                            viewModel.attr('errorText', 'Error loading news feed');
-                        });
-                    };
+                    // Render template to the control element
+                    this.element.html(can.view(template, this.viewModel));
 
                     // Initial load and interval for feed update
-                    loadFeed();
-                    setInterval(loadFeed, options.interval);
+                    this.loadFeed();
+
+                    // Clear interval before starting the new one
+                    if (this.updateInterval) {
+                        clearInterval(this.updateInterval);
+                    }
+
+                    this.updateInterval = setInterval(this.loadFeed.bind(this), this.options.interval);
+                },
+                loadFeed: function () {
+                    var self = this;
+
+                    this.News.findAll({limit: self.options.limit, from_id: self.latestId}, function (data) {
+                        if (data.length > 0) {
+
+                            // Set data feed as old data
+                            self.viewModel.feedItems.forEach(function (item) {
+                                item.attr('isNewItem', false);
+                            });
+
+                            // Mark new items
+                            data.forEach(function (item) {
+                                item.attr('isNewItem', true);
+                            });
+
+                            // Add new items to the beginning of feed array
+                            self.viewModel.feedItems.unshift.apply(self.viewModel.feedItems, data);
+
+                            // Remove last elements
+                            self.viewModel.feedItems.splice(self.options.limit, data.length);
+
+                            // Hide Loading message
+                            if (self.viewModel.attr('isFeedLoading') === true) {
+                                self.viewModel.attr('isFeedLoading', false);
+                            }
+
+                            // Save last feed item entity_id
+                            self.latestId = data[0].entity_id;
+                        }
+
+                    }, function (error) {
+                        self.viewModel.attr('isFeedLoading', false);
+                        self.viewModel.attr('isError', true);
+                        self.viewModel.attr('errorText', 'Error loading news feed');
+                    });
+                },
+                updateSettings: function () {
+
+                    // Update settings from the form
+                    this.options = this.viewModel.options;
+
+                    // And re-init the control
+                    this.init();
+                },
+
+                // Settings form submit
+                '.news-feed-form submit': function (form, event) {
+                    this.updateSettings();
+                    event.preventDefault();
                 }
             }
         );
