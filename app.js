@@ -1,6 +1,7 @@
 define(['can',
         'controls/news-feed/news-feed.control'],
     function (can, NewsFeed) {
+
         (function() {
 
             new NewsFeed('#widget', {
@@ -10,4 +11,5 @@ define(['can',
             });
 
         })();
+
     });

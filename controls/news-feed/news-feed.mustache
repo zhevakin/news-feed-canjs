@@ -7,9 +7,9 @@
     {{/isFeedLoading}}
     <div class="news-feed-list">
     {{#feedItems}}
-        <div class="news-feed-item">
+        <div class="news-feed-item{{#isNewItem}} news-feed-fade-in{{/isNewItem}}">
             <div class="news-feed-user">{{user.name}}</div>
-            <div class="news-feed-text">{{text}}:</div>
+            <div class="news-feed-text">{{text}}</div>
         </div>
     {{/feedItems}}
     </div>

@@ -21,7 +21,7 @@ define(['can',
                             isError: false
                         });
 
-                    // Render template to the element
+                    // Render template to the control element
                     element.html(can.view(template, viewModel));
 
                     // Create model for json data feed
@@ -34,23 +34,29 @@ define(['can',
                         News.findAll({limit: options.limit, from_id: latestId}, function (data) {
                             if (data.length > 0) {
 
-                                if (viewModel.feedItems.length == 0) {
-                                    // If items array is empty init it with new data
-                                    viewModel.feedItems.attr(data);
+                                // Set data feed as old data
+                                viewModel.feedItems.forEach(function (item) {
+                                    item.attr('isNewItem', false);
+                                });
 
-                                    // Hide Loading message
+                                // Mark new items
+                                data.forEach(function (item) {
+                                    item.attr('isNewItem', true);
+                                });
+
+                                // Add new items to the beginning of feed array
+                                viewModel.feedItems.unshift.apply(viewModel.feedItems, data);
+
+                                // Remove last elements
+                                viewModel.feedItems.splice(options.limit, data.length);
+
+                                // Hide Loading message
+                                if (viewModel.attr('isFeedLoading') === true) {
                                     viewModel.attr('isFeedLoading', false);
-                                } else {
-                                    // Else add new items to the beginning
-                                    viewModel.feedItems.unshift.apply(viewModel.feedItems, data);
-
-                                    // And remove last elements
-                                    viewModel.feedItems.splice(options.limit, data.length);
                                 }
 
-                                // Save last feed item id
+                                // Save last feed item entity_id
                                 latestId = data[0].entity_id;
-
                             }
 
                         }, function (error) {
