@@ -14,6 +14,7 @@ define(['can',
             {
                 // Control init
                 init: function () {
+                    // Template view model
                     this.viewModel = new can.Map({
                         errorText: '',
                         feedItems: new can.List(),
