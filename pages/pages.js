@@ -16,7 +16,6 @@ define([
                 selector: '#main_container',
                 fade: false,
                 fnLoad: function (el) {
-                    console.log('Index loaded');
                     new NewsFeed('#index-widget', {
                         feedUrl: 'http://api.massrelevance.com/reccosxof/matchtrax_hashclash_featured_tweets.json',
                         interval: 3000,
@@ -32,7 +31,6 @@ define([
                 selector: '#main_container',
                 fade: false,
                 fnLoad: function (el) {
-                    console.log('About loaded');
                 }
             });
         },
