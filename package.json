@@ -19,7 +19,7 @@
     "steal-tools": "^0.10.7"
   },
   "dependencies": {
-    "bootstrap": "^3.3.5",
+    "bootstrap": "^4.1.2",
     "can": "^2.2.7",
     "jquery": "^3.3.1",
     "steal": "^0.10.5"
